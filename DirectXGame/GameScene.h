@@ -27,7 +27,8 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
-	Model2* model2 = nullptr;
+	// 四角形
+	KamataEngine::Model2* modelSquare_ = nullptr;
 
 	// ワールド変換データ
 	WorldTransform worldTransform_;

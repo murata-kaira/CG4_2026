@@ -7,7 +7,7 @@ GameScene::GameScene() {}
 // デストラクタ
 GameScene::~GameScene() {
 	// 3Dモデルデータの解放
-	delete model2;
+	delete modelSquare_;
 
 	Model2::StaticFinalize();
 }
@@ -24,7 +24,9 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {2, 2, 2};
 	// 3Dモデルデータの生成
-	model2 = Model2::CreateSquare(5);
+	modelSquare_ = Model2::CreateRing(20);
+	//model2 = Model2::CreateSquare(5);
+	
 	// modelSquare_ = Model2::CreateSquare(1);
 }
 
@@ -43,7 +45,7 @@ void GameScene::Draw() {
 	Model2::PreDraw(dxCommon->GetCommandList());
 
 	// 3Dモデルを描画
-	model2->Draw(worldTransform_, camera_, textureHandle_);
+	modelSquare_->Draw(worldTransform_, camera_, textureHandle_);
 
 	// 3Dモデル描画後処理
 	Model2::PostDraw();
