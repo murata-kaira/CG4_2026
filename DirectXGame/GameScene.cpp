@@ -24,7 +24,7 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = {2, 2, 2};
 	// 3Dモデルデータの生成
-	model2 = Model2::CreateSquare(1);
+	model2 = Model2::CreateSquare(5);
 	// modelSquare_ = Model2::CreateSquare(1);
 }
 
