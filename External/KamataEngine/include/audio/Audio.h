@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #include <array>
 #include <cstdint>
@@ -30,9 +31,11 @@ public:
 	};
 
 	// 再生データ
-	struct Voice {
+	class Voice {
+	public:
 		uint32_t handle = 0u;
 		IXAudio2SourceVoice* sourceVoice = nullptr;
+		~Voice();
 	};
 
 	/// <summary>
@@ -59,6 +62,11 @@ public:
 	};
 
 	static Audio* GetInstance();
+
+	/// <summary>
+	/// 静的終了処理
+	/// </summary>
+	static void Terminate();
 
 	/// <summary>
 	/// 初期化
@@ -127,10 +135,24 @@ public:
 	void SetVolume(uint32_t voiceHandle, float volume);
 
 private:
-	Audio() = default;
-	~Audio() = default;
 	Audio(const Audio&) = delete;
 	const Audio& operator=(const Audio&) = delete;
+
+	static std::unique_ptr<Audio> sInstance_;
+
+public:
+	struct Passkey {
+	private:
+		friend Audio;
+		Passkey() = default;
+	};
+
+	Audio(Passkey);
+
+private:
+	friend std::default_delete<Audio>;
+	Audio() = default;
+	~Audio();
 
 	// XAudio2のインスタンス
 	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
@@ -138,7 +160,7 @@ private:
 	std::array<SoundData, kMaxSoundData> soundDatas_;
 	// 再生中データコンテナ
 	// std::unordered_map<uint32_t, IXAudio2SourceVoice*> voices_;
-	std::set<Voice*> voices_;
+	std::vector<std::unique_ptr<Voice>> voices_;
 	// サウンド格納ディレクトリ
 	std::string directoryPath_;
 	// 次に使うサウンドデータの番号

@@ -39,10 +39,10 @@ public:
 #pragma endregion
 
 	// ビュー行列
-	Matrix4x4 matView;
+	Matrix4x4 matView = {0};
 	// 射影行列
-	Matrix4x4 matProjection;
-
+	Matrix4x4 matProjection = {0};
+	
 	Camera() = default;
 	~Camera() = default;
 
