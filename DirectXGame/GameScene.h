@@ -2,6 +2,7 @@
 
 #include "KamataEngine.h"
 #include "Effect.h"
+#include "Particle.h"
 
 using namespace KamataEngine;
 
@@ -34,11 +35,17 @@ private:
 	// カメラ
 	Camera camera_;
 
-	// 3Dモデル エフェクト
+	// 3Dモデル 
 	Model* modelEffect_ = nullptr;
+	Model* modelParticle_ = nullptr;
+
 
 	// エフェクト
 	std::list<Effect*> effects_;
+
+	// パーティクル
+	Particle* particle_ = nullptr;
+
 
 	// エフェクト発生
 	void EffectBorn(KamataEngine::Vector3 position);

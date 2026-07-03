@@ -19,6 +19,9 @@ GameScene::~GameScene()
 		delete effect;
 	}
 	effects_.clear();
+
+	delete modelParticle_;
+	delete particle_;
 }
 
 // 初期化
@@ -29,9 +32,15 @@ void GameScene::Initialize()
 
 	// 3Dモデルデータ生成
 	modelEffect_ = Model::CreateFromOBJ("plane");
+	modelParticle_ = Model::CreateSphere(4, 4);
 
 	// カメラの初期化
 	camera_.Initialize();
+
+	// パーティクルの生成、初期化
+	particle_ = new Particle();
+	particle_->Initialize(modelParticle_);
+
 }
 
 // 更新
@@ -58,6 +67,12 @@ void GameScene::Update()
 		}
 		return false;
 		});
+
+
+	// パーティクル更新
+	particle_->Update();
+
+
 }
 
 // 描画
@@ -75,8 +90,13 @@ void GameScene::Draw()
 		effect->Draw(camera_);
 	}
 
+	// パーティクル描画
+	particle_->Draw(camera_);
+
+
 	// 3Dモデル描画後処理
 	Model::PostDraw();
+
 }
 
 // エフェクト発生

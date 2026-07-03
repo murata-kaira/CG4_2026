@@ -38,7 +38,7 @@ private:
 	float counter_ = 0.0f;
 
 	// 存続時間（消滅までの時間）<秒>
-	static inline const float kDuration = 0.5f;
+	static inline const float kDuration = 0.1f;
 
 	// 色変更オブジェクト
 	ObjectColor objectColor_;
