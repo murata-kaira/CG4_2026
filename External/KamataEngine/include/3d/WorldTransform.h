@@ -1,8 +1,8 @@
 #pragma once
 
+#include <d3d12.h>
 #include <math\Matrix4x4.h>
 #include <math\Vector3.h>
-#include <d3d12.h>
 #include <type_traits>
 #include <wrl.h>
 
@@ -10,7 +10,7 @@ namespace KamataEngine {
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
-	Matrix4x4 matWorld; // ローカル → ワールド変換行列
+	Matrix4x4 matWorld;              // ローカル → ワールド変換行列
 	Matrix4x4 worldInverseTranspose; // 逆転置行列
 };
 
@@ -41,13 +41,14 @@ public:
 	/// 行列を転送する
 	/// </summary>
 	void TransferMatrix();
+
+	void UpdateMatrix();
+
 	/// <summary>
 	/// 定数バッファの取得
 	/// </summary>
 	/// <returns>定数バッファ</returns>
 	const Microsoft::WRL::ComPtr<ID3D12Resource>& GetConstBuffer() const { return constBuffer_; }
-
-	void UpdateMatrix();
 
 private:
 	// 定数バッファ

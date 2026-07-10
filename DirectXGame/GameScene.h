@@ -44,10 +44,13 @@ private:
 	std::list<Effect*> effects_;
 
 	// パーティクル
-	Particle* particle_ = nullptr;
-
+	std::list<Particle*> particles_;
 
 	// エフェクト発生
-	void EffectBorn(KamataEngine::Vector3 position);
+	void EffectBorn(Vector3 position);
+
+	// パーティクル発生
+	void ParticleBorn(Vector3 position);
+
 };
 

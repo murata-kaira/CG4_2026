@@ -1,10 +1,9 @@
 #include "GameScene.h"
-#include "Math.h"
-
+#include <math/MathUtility.h>
 #include <random>
 
 using namespace KamataEngine;
-//using namespace MathUtility;
+using namespace MathUtility;
 
 std::random_device seedGenerator;
 std::mt19937 randomEngine(seedGenerator());
@@ -21,7 +20,11 @@ GameScene::~GameScene()
 	effects_.clear();
 
 	delete modelParticle_;
-	delete particle_;
+
+	for (Particle* particle : particles_) {
+		delete particle;
+	}
+	particles_.clear();
 }
 
 // 初期化
@@ -37,10 +40,6 @@ void GameScene::Initialize()
 	// カメラの初期化
 	camera_.Initialize();
 
-	// パーティクルの生成、初期化
-	particle_ = new Particle();
-	particle_->Initialize(modelParticle_);
-
 }
 
 // 更新
@@ -52,6 +51,14 @@ void GameScene::Update()
 		position = position * 10;
 		EffectBorn(position);
 	}
+
+	//パーティクル発生
+	if (rand() % 20 == 0) {
+		Vector3 position = {distribution(randomEngine) * 30.0f, distribution(randomEngine) * 20.0f, 0};
+		ParticleBorn(position);
+	}
+
+
 
 	// エフェクト更新
 	//effect_->Update();
@@ -70,8 +77,18 @@ void GameScene::Update()
 
 
 	// パーティクル更新
-	particle_->Update();
+	for (Particle* particle : particles_) {
+		particle->Update();
+	}
 
+	//終了フラグの立ったパーティクルを削除
+	particles_.remove_if([](Particle* particle) {
+		if (particle->IsFinished()) {
+			delete particle;
+			return true;
+		}
+		return false;
+		});
 
 }
 
@@ -91,8 +108,9 @@ void GameScene::Draw()
 	}
 
 	// パーティクル描画
-	particle_->Draw(camera_);
-
+	for (Particle* particle : particles_) {
+		particle->Draw(camera_);
+	}
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
@@ -110,5 +128,25 @@ void GameScene::EffectBorn(Vector3 position)
 		effect->Initialize(modelEffect_, rotate, size, position, color);
 		effects_.push_back(effect);
 	}
-
 }
+
+// パーティクル発生
+void GameScene::ParticleBorn(Vector3 position)
+{
+	// パーティクルの生成
+	for (int i = 0; i < 100; i++) {
+
+		// 生成
+		Particle* particle = new Particle();
+		// 移動量
+		Vector3 velocity = {distribution(randomEngine), distribution(randomEngine), 0};
+		// 初期化
+		particle->Initialize(modelParticle_, position, velocity);
+		// リストに追加
+		particles_.push_back(particle);
+		Normalize(velocity);
+		velocity *= distribution(randomEngine);
+		velocity *= 0.1f;
+	}
+}
+	

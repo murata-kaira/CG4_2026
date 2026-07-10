@@ -1,8 +1,10 @@
 #include <KamataEngine.h>
-#include "Math.h"
+#include <math/MathUtility.h>
+
+
 
 using namespace KamataEngine;
-//using namespace MathUtility;
+using namespace MathUtility;
 
 void WorldTransform::UpdateMatrix() {
 	// スケーリング行列の作成
