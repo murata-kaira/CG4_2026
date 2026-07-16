@@ -3,6 +3,8 @@
 #include "KamataEngine.h"
 #include "Effect.h"
 #include "Particle.h"
+#include "Stage.h"
+
 
 using namespace KamataEngine;
 
@@ -39,6 +41,10 @@ private:
 	Model* modelEffect_ = nullptr;
 	Model* modelParticle_ = nullptr;
 
+	//テクスチャー
+	uint32_t textureHandleStage_ = 0;
+
+		Stage* stage_ = nullptr;
 
 	// エフェクト
 	std::list<Effect*> effects_;

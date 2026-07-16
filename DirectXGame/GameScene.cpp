@@ -20,11 +20,15 @@ GameScene::~GameScene()
 	effects_.clear();
 
 	delete modelParticle_;
+	delete stage_;
 
 	for (Particle* particle : particles_) {
 		delete particle;
 	}
 	particles_.clear();
+
+	
+
 }
 
 // 初期化
@@ -37,14 +41,26 @@ void GameScene::Initialize()
 	modelEffect_ = Model::CreateFromOBJ("plane");
 	modelParticle_ = Model::CreateSphere(4, 4);
 
+	textureHandleStage_ = TextureManager::Load("stage/stage.png");
+
+
 	// カメラの初期化
 	camera_.Initialize();
+
+	stage_ = new Stage();
+	stage_->Initialize(textureHandleStage_);
+	
+
+
 
 }
 
 // 更新
 void GameScene::Update()
 {
+
+	stage_->Update();
+
 	// エフェクト発生
 	if (rand() % 5 == 0) {
 		Vector3 position = { distribution(randomEngine), distribution(randomEngine), 0 };
@@ -90,6 +106,7 @@ void GameScene::Update()
 		return false;
 		});
 
+
 }
 
 // 描画
@@ -97,6 +114,15 @@ void GameScene::Draw()
 {
 	// DirectXCommon インスタンスの取得
 //	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	// 2Dスプライト描画前処理
+	Sprite::PreDraw();
+
+	// 背景描画
+	stage_->Draw();
+
+	// 2Dスプライト描画後処理
+	Sprite::PostDraw();
 
 	// 3Dモデル描画前処理
 //	Model::PreDraw(dxCommon->GetCommandList());
@@ -114,6 +140,7 @@ void GameScene::Draw()
 
 	// 3Dモデル描画後処理
 	Model::PostDraw();
+
 
 }
 
