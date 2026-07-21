@@ -4,6 +4,8 @@
 #include "Effect.h"
 #include "Particle.h"
 #include "Stage.h"
+#include "Player.h"
+
 
 
 using namespace KamataEngine;
@@ -34,8 +36,7 @@ public:
 	void Draw();
 
 private:
-	// カメラ
-	Camera camera_;
+	
 
 	// 3Dモデル 
 	Model* modelEffect_ = nullptr;
@@ -57,6 +58,20 @@ private:
 
 	// パーティクル発生
 	void ParticleBorn(Vector3 position);
+
+
+	
+	// 3Dモデル
+	KamataEngine::Model* modelPlayer_ = nullptr;
+	// カメラ
+	KamataEngine::Camera camera_; 
+	// クラス
+	Player* player_ = nullptr;
+
+	// HP
+	int hp_ = 200;
+	// score
+	int gameScore_ = 0;
 
 };
 
