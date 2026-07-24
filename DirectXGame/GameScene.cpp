@@ -22,6 +22,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete modelPlayer_;
 	delete graph_;
+	delete number_;
 
 	for (Particle* particle : particles_) {
 		delete particle;
@@ -40,6 +41,7 @@ void GameScene::Initialize() {
 
 	textureHandleStage_ = TextureManager::Load("stage/stage.png");
 	textureHandleGraph_ = TextureManager::Load("white1x1.png");
+	textureHandleNumber_ = TextureManager::Load("number.png");
 
 
 	// 3Dモデルの生成
@@ -51,12 +53,12 @@ void GameScene::Initialize() {
 
 	stage_ = new Stage();
 	stage_->Initialize(textureHandleStage_);
-
 	player_ = new Player();
 	player_->Initialize(modelPlayer_);
-
 	graph_ = new Graph();
 	graph_->Initialize(textureHandleGraph_);
+	number_ = new Number();
+	number_->Initialize(textureHandleNumber_);
 
 }
 
@@ -73,6 +75,7 @@ void GameScene::Update() {
 	stage_->Update();
 	player_->Update();
 	graph_->Update(hp_);
+	number_->Update(gameScore_);
 
 	// エフェクト発生
 	if (rand() % 5 == 0) {
@@ -128,6 +131,8 @@ void GameScene::Draw() {
 	// 背景描画
 	stage_->Draw();
 	graph_->Draw();
+	number_->Draw();
+
 
 	// 2Dスプライト描画後処理
 	Sprite::PostDraw();
