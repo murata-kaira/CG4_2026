@@ -5,6 +5,8 @@
 #include "Particle.h"
 #include "Stage.h"
 #include "Player.h"
+#include "Graph.h"
+
 
 
 
@@ -44,6 +46,8 @@ private:
 
 	//テクスチャー
 	uint32_t textureHandleStage_ = 0;
+	uint32_t textureHandleGraph_ = 0;
+
 
 		Stage* stage_ = nullptr;
 
@@ -67,6 +71,7 @@ private:
 	KamataEngine::Camera camera_; 
 	// クラス
 	Player* player_ = nullptr;
+	Graph* graph_ = nullptr;
 
 	// HP
 	int hp_ = 200;
