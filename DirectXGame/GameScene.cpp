@@ -63,6 +63,13 @@ void GameScene::Initialize() {
 // 更新
 void GameScene::Update() {
 
+	hp_--;
+	if (hp_ < 0) {
+		hp_ = 200u;
+	}
+	gameScore_++;
+
+
 	stage_->Update();
 	player_->Update();
 	graph_->Update(hp_);
