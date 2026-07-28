@@ -115,9 +115,6 @@ public: // 静的メンバ関数
 	/// </summary>
 	static void StaticFinalize();
 
-	// 四角形モデルの生成
-	static Model2* CreateSquare(int max);
-
 	/// <summary>
 	/// 3Dモデル生成
 	/// </summary>
